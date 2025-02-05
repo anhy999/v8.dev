@@ -146,7 +146,7 @@ re.test('𐆊'); // → false
 Matching all ASCII white space:
 
 ```js
-const re = [\p{White_Space}&&\p{ASCII}];
+const re = /[\p{White_Space}&&\p{ASCII}]/v;
 re.test('\n'); // → true
 re.test('\u2028'); // → false
 ```
@@ -154,7 +154,7 @@ re.test('\u2028'); // → false
 Or matching all Mongolian numbers:
 
 ```js
-const re = [\p{Script_Extensions=Mongolian}&&\p{Number}];
+const re = /[\p{Script_Extensions=Mongolian}&&\p{Number}]/v;
 // U+1817 MONGOLIAN DIGIT SEVEN
 re.test('᠗'); // → true
 // U+1834 MONGOLIAN LETTER CHA
@@ -189,13 +189,13 @@ Another example is matching all commonly-used flag emoji, regardless of whether 
 ```js
 const reFlag = /[\p{RGI_Emoji_Flag_Sequence}\p{RGI_Emoji_Tag_Sequence}]/v;
 // A flag sequence, consisting of 2 code points (flag of Belgium):
-re.test('🇧🇪'); // → true
+reFlag.test('🇧🇪'); // → true
 // A tag sequence, consisting of 7 code points (flag of England):
-re.test('🏴󠁧󠁢󠁥󠁮󠁧󠁿'); // → true
+reFlag.test('🏴󠁧󠁢󠁥󠁮󠁧󠁿'); // → true
 // A flag sequence, consisting of 2 code points (flag of Switzerland):
-re.test('🇨🇭'); // → true
+reFlag.test('🇨🇭'); // → true
 // A tag sequence, consisting of 7 code points (flag of Wales):
-re.test('🏴󠁧󠁢󠁷󠁬󠁳󠁿'); // → true
+reFlag.test('🏴󠁧󠁢󠁷󠁬󠁳󠁿'); // → true
 ```
 
 ## Improved case-insensitive matching { #ignoreCase }
@@ -212,6 +212,9 @@ The first pattern matches all lowercase letters. The second pattern uses `\P` in
 Intuitively, you might expect both regular expressions to behave the same. In practice, they behave very differently:
 
 ```js
+const re1 = /\p{Lowercase_Letter}/giu;
+const re2 = /[^\P{Lowercase_Letter}]/giu;
+
 const string = 'aAbBcC4#';
 
 string.replaceAll(re1, 'X');
@@ -246,10 +249,10 @@ As part of our work on these JavaScript features, we went beyond “just” prop
 
 ## RegExp `v` flag support { #support }
 
-The `v` flag is not yet supported in any JavaScript engine. However, Babel already supports transpiling it — [try out the examples from this article in the Babel REPL](https://babeljs.io/repl/#?code_lz=MYewdgzgLgBATgUxgXhgegNoYIYFoBmAugGTEbC4AWhhaAbgNwBQTaaMAKpQJYQy8xKAVwDmSQCgEMKHACeMIWFABbJQjBRuYEfygBCVmlCRYCJSABW3FOgA6ABwDeAJQDiASQD6AUTOWAvvTMQA&presets=stage-3)! The support table below links to tracking issues you can subscribe to for updates.
+V8 v11.0 (Chrome 110) offers experimental support for this new functionality via the `--harmony-regexp-unicode-sets` flag. V8 v12.0 (Chrome 112) has the new features enabled by default. Babel also supports transpiling the `v` flag — [try out the examples from this article in the Babel REPL](https://babeljs.io/repl#?code_lz=MYewdgzgLgBATgUxgXhgegNoYIYFoBmAugGTEbC4AWhhaAbgNwBQTaaMAKpQJYQy8xKAVwDmSQCgEMKHACeMIWFABbJQjBRuYEfygBCVmlCRYCJSABW3FOgA6ABwDeAJQDiASQD6AUTOWAvvTMQA&presets=stage-3)! The support table below links to tracking issues you can subscribe to for updates.
 
-<feature-support chrome="no https://bugs.chromium.org/p/v8/issues/detail?id=11935"
-                 firefox="no https://bugzilla.mozilla.org/show_bug.cgi?id=regexp-v-flag"
-                 safari="no https://bugs.webkit.org/show_bug.cgi?id=regexp-v-flag"
-                 nodejs="no"
+<feature-support chrome="112 https://bugs.chromium.org/p/v8/issues/detail?id=11935"
+                 firefox="116 https://bugzilla.mozilla.org/show_bug.cgi?id=regexp-v-flag"
+                 safari="17 https://bugs.webkit.org/show_bug.cgi?id=regexp-v-flag"
+                 nodejs="20"
                  babel="7.17.0 https://babeljs.io/blog/2022/02/02/7.17.0"></feature-support>

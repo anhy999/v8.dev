@@ -53,7 +53,7 @@
 :root.dark {
   --html-color: var(--nearwhite);
   --html-background: var(--black);
-  --main-color:var(--nearwhite);
+  --main-color: var(--nearwhite);
   --main-background: var(--darkestgray);
   --footer-color: var(--nearwhite);
   --footer-background: var(--darkgray);
@@ -191,7 +191,13 @@ hr {
   font-size: 0.8em;
 }
 .footnote-item:target {
-  background: var(--lightyellow);
+  background-color: var(--lightyellow);
+  --html-color: var(--black);
+  --main-background: var(--white);
+  --main-and-footer-link-color: var(--darkblue);
+}
+.footnote-item:target > * {
+  color: var(--html-color);
 }
 .retweet {
   display: inline-block;
@@ -208,14 +214,18 @@ hr {
 }
 #footer {
   color: var(--footer-color);
-  background: var(--footer-background) url(/_img/v8-outline.svg) no-repeat 95.5% center;
-  padding-right: 12em;
+  background: var(--footer-background) url(/_img/v8-outline.svg) no-repeat 96% center;
+  padding-right: 10.8em;
   background-size: 10em;
 }
 #footer div {
   padding-top: 1em;
   display: flex;
   align-items: flex-end;
+}
+
+#footer nav a {
+  margin-right : 0.2em;
 }
 
 pre, code, var, kbd, samp {
@@ -387,6 +397,9 @@ th, td {
 tbody tr:nth-child(odd) {
   background-color: var(--alt-table-row-background);
 }
+td:has(pre) {
+  vertical-align: top;
+}
 td > pre {
   margin: 0;
   width: 100%;
@@ -477,7 +490,6 @@ dark-mode-toggle {
   --dark-mode-toggle-dark-icon: url(/_css/img/sun.svg);
   --dark-mode-toggle-color: var(--main-and-footer-link-color);
   --dark-mode-toggle-icon-filter: invert(80%);
-  margin-left: 1em;
   position: relative;
   top: 0.4rem;
 }
